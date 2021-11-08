@@ -135,4 +135,14 @@ class EpisodesActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onBackPressed() {
+        val position = intent.getIntExtra(MainActivity.EXTRA_SEASON_POSITION, -1)
+        val intentResult = Intent()
+        season.episodes = episodeList.count()
+        intentResult.putExtra(MainActivity.EXTRA_SEASON, season)
+        intentResult.putExtra(MainActivity.EXTRA_SEASON_POSITION, position)
+        setResult(RESULT_OK, intentResult)
+        finish()
+    }
 }
