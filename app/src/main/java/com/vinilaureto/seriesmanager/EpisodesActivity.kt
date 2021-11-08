@@ -4,9 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
+import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import com.google.android.material.snackbar.Snackbar
 import com.vinilaureto.seriesmanager.adapter.EpisodeAdapter
 import com.vinilaureto.seriesmanager.controllers.EpisodeController
 import com.vinilaureto.seriesmanager.databinding.ActivityEpisodesBinding
@@ -93,5 +97,42 @@ class EpisodesActivity : AppCompatActivity() {
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         menuInflater.inflate(R.menu.context_menu_item, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val episodePosition = (item.menuInfo as AdapterView.AdapterContextMenuInfo).position
+        val episode = episodeList[episodePosition]
+
+        return when (item.itemId) {
+            R.id.editItemMi -> {
+                val editEpisodeIntent = Intent(this, EpisodeEditorActivity::class.java)
+                val season = intent.getParcelableExtra<Season>(MainActivity.EXTRA_SEASON)!!
+
+                editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE, episode)
+                editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE_POSITION, episodePosition)
+                editEpisodeIntent.putExtra(MainActivity.EXTRA_SEASON, season)
+                editEpisodeEditorActivityLauncher.launch(editEpisodeIntent)
+                true
+            }
+            R.id.removeItemMi -> {
+                with(AlertDialog.Builder(this)) {
+                    setMessage("Deseja apagar o episódio ${episode.title}?")
+                    setPositiveButton("Sim") {_, _ ->
+                        episodeList.removeAt(episodePosition)
+                        episodeAdapter.notifyDataSetChanged()
+                        episodeController.removeEpisode(episode)
+                        Snackbar.make(activityEpisodeBinding.root, "Episódio removido", Snackbar.LENGTH_SHORT).show()
+                    }
+                    setNegativeButton("Cancelar") {_,_ ->
+                        Snackbar.make(activityEpisodeBinding.root, "Operação cancelada", Snackbar.LENGTH_SHORT).show()
+                    }
+                    create()
+                }.show()
+                true
+            }
+            else -> {
+                false
+            }
+        }
     }
 }
