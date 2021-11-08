@@ -1,0 +1,8 @@
+package com.vinilaureto.seriesmanager.entities.episode
+
+interface EpisodeDAO {
+    fun createEpisode(episode: Episode): Long
+    fun findAllEpisodesBySeason(seasonId: String): MutableList<Episode>
+    fun updateEpisode(episode: Episode): Int
+    fun removeEpisode(episode: Episode): Int
+}
