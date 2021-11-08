@@ -1,4 +1,4 @@
-package com.vinilaureto.seriesmanager.entities.episode
+package com.vinilaureto.seriesmanager.entities.Episode
 
 interface EpisodeDAO {
     fun createEpisode(episode: Episode): Long

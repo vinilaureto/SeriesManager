@@ -5,7 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.vinilaureto.seriesmanager.databinding.ActivitySeriesEditorBinding
-import com.vinilaureto.seriesmanager.entities.series.Series
+import com.vinilaureto.seriesmanager.entities.Season.Season
+import com.vinilaureto.seriesmanager.entities.Series.Series
 
 class SeriesEditorActivity : AppCompatActivity() {
     private lateinit var activitySeriesEditorBinding: ActivitySeriesEditorBinding
@@ -50,7 +51,9 @@ class SeriesEditorActivity : AppCompatActivity() {
         finish()
     }
 
-    fun cancelAction(view: View) {
+    fun cancel(view: View) {
         finish()
     }
+
+
 }

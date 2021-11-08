@@ -1,7 +1,8 @@
-package com.vinilaureto.seriesmanager.entities.episode
+package com.vinilaureto.seriesmanager.entities.Episode
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.time.Duration
 import java.util.*
 
 @Parcelize

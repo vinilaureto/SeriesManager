@@ -5,8 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.vinilaureto.seriesmanager.databinding.ActivityEpisodeEditorBinding
-import com.vinilaureto.seriesmanager.entities.episode.Episode
-import com.vinilaureto.seriesmanager.entities.season.Season
+import com.vinilaureto.seriesmanager.entities.Episode.Episode
+import com.vinilaureto.seriesmanager.entities.Season.Season
+import com.vinilaureto.seriesmanager.entities.Series.Series
 
 class EpisodeEditorActivity : AppCompatActivity() {
     private lateinit var activityEpisodeEditorBinding: ActivityEpisodeEditorBinding

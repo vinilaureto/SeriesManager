@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.vinilaureto.seriesmanager.databinding.LayoutEpisodeBinding
-import com.vinilaureto.seriesmanager.entities.episode.Episode
+import com.vinilaureto.seriesmanager.entities.Episode.Episode
 
 class EpisodeAdapter (
     val localContext: Context,

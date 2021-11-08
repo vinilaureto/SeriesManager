@@ -24,7 +24,7 @@
         android:clickable="true"
         android:focusable="true"
         app:srcCompat="@drawable/ic_add"
-        android:contentDescription="Nova séries"
+        android:contentDescription="@string/new_series"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="16dp"

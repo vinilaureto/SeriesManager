@@ -1,4 +1,4 @@
-package com.vinilaureto.seriesmanager.entities.season
+package com.vinilaureto.seriesmanager.entities.Season
 
 interface SeasonDAO {
     fun createSeason(season: Season): Long

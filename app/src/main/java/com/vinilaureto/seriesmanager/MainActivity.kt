@@ -14,10 +14,16 @@ import com.google.android.material.snackbar.Snackbar
 import com.vinilaureto.seriesmanager.adapter.SeriesAdapter
 import com.vinilaureto.seriesmanager.controllers.SeriesController
 import com.vinilaureto.seriesmanager.databinding.ActivityMainBinding
-import com.vinilaureto.seriesmanager.entities.series.Series
+import com.vinilaureto.seriesmanager.entities.Series.Series
+
+/*
+* 1 - Todos os campos funcionando com os valores no banco
+* 2 - Display de série e temporada
+* 4 - Flag de assistido no botão OU ver se é possivel adicionar os generos
+*/
 
 class MainActivity : AppCompatActivity() {
-    companion object {
+    companion object Extras {
         const val EXTRA_SERIES = "EXTRA_SERIES"
         const val EXTRA_SERIES_POSITION = "EXTRA_SERIES_POSITION"
         const val EXTRA_SEASON = "EXTRA_SEASON"

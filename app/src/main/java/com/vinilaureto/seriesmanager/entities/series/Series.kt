@@ -1,4 +1,4 @@
-package com.vinilaureto.seriesmanager.entities.series
+package com.vinilaureto.seriesmanager.entities.Series
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

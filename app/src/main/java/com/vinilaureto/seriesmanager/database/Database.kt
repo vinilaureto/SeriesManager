@@ -4,12 +4,12 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
-import com.vinilaureto.seriesmanager.entities.episode.Episode
-import com.vinilaureto.seriesmanager.entities.episode.EpisodeDAO
-import com.vinilaureto.seriesmanager.entities.season.Season
-import com.vinilaureto.seriesmanager.entities.season.SeasonDAO
-import com.vinilaureto.seriesmanager.entities.series.Series
-import com.vinilaureto.seriesmanager.entities.series.SeriesDAO
+import com.vinilaureto.seriesmanager.entities.Episode.Episode
+import com.vinilaureto.seriesmanager.entities.Episode.EpisodeDAO
+import com.vinilaureto.seriesmanager.entities.Season.Season
+import com.vinilaureto.seriesmanager.entities.Season.SeasonDAO
+import com.vinilaureto.seriesmanager.entities.Series.Series
+import com.vinilaureto.seriesmanager.entities.Series.SeriesDAO
 import java.sql.SQLException
 
 class Database (context: Context): SeriesDAO, SeasonDAO, EpisodeDAO {
@@ -107,12 +107,12 @@ class Database (context: Context): SeriesDAO, SeasonDAO, EpisodeDAO {
             with(seriesQuery) {
                 seriesList.add(
                     Series(
-                        getString(getColumnIndexOrThrow(COL_SERIES_TITLE)),
-                        getInt(getColumnIndexOrThrow(COL_SERIES_YEAR)),
-                        getString(getColumnIndexOrThrow(COL_SERIES_CHANNEL)),
-                        getString(getColumnIndexOrThrow(COL_SERIES_GENRE)),
-                        findSeasonsBySeriesId(getString(getColumnIndexOrThrow(COL_SEASON_ID))).count(),
-                        getString(getColumnIndexOrThrow(COL_SERIES_ID)))
+                    getString(getColumnIndexOrThrow(COL_SERIES_TITLE)),
+                    getInt(getColumnIndexOrThrow(COL_SERIES_YEAR)),
+                    getString(getColumnIndexOrThrow(COL_SERIES_CHANNEL)),
+                    getString(getColumnIndexOrThrow(COL_SERIES_GENRE)),
+                    findSeasonsBySeriesId(getString(getColumnIndexOrThrow(COL_SEASON_ID))).count(),
+                    getString(getColumnIndexOrThrow(COL_SERIES_ID)))
                 )
             }
         }

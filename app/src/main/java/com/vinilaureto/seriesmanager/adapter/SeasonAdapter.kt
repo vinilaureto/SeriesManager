@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.vinilaureto.seriesmanager.databinding.LayoutSeasonBinding
-import com.vinilaureto.seriesmanager.entities.season.Season
+import com.vinilaureto.seriesmanager.entities.Season.Season
+
 
 class SeasonAdapter (
     val localContext: Context,

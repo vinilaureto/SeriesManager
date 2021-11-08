@@ -2,7 +2,7 @@ package com.vinilaureto.seriesmanager.controllers
 
 import com.vinilaureto.seriesmanager.SeasonActivity
 import com.vinilaureto.seriesmanager.database.Database
-import com.vinilaureto.seriesmanager.entities.season.Season
+import com.vinilaureto.seriesmanager.entities.Season.Season
 
 class SeasonController(seasonActivity: SeasonActivity) {
     private val database = Database(seasonActivity)

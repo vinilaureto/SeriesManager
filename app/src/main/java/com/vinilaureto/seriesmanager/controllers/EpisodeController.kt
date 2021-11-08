@@ -1,10 +1,10 @@
 package com.vinilaureto.seriesmanager.controllers
 
-import com.vinilaureto.seriesmanager.EpisodesActivity
+import com.vinilaureto.seriesmanager.EpisodeActivity
 import com.vinilaureto.seriesmanager.database.Database
-import com.vinilaureto.seriesmanager.entities.episode.Episode
+import com.vinilaureto.seriesmanager.entities.Episode.Episode
 
-class EpisodeController(episodeActivity: EpisodesActivity) {
+class EpisodeController(episodeActivity: EpisodeActivity) {
     private val database = Database(episodeActivity)
 
     fun newEpisode(episode: Episode) = database.createEpisode(episode)

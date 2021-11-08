@@ -13,12 +13,12 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import com.vinilaureto.seriesmanager.adapter.SeasonAdapter
 import com.vinilaureto.seriesmanager.controllers.SeasonController
-import com.vinilaureto.seriesmanager.databinding.ActivitySeasonBinding
-import com.vinilaureto.seriesmanager.entities.season.Season
-import com.vinilaureto.seriesmanager.entities.series.Series
+import com.vinilaureto.seriesmanager.databinding.ActivitySeasonsBinding
+import com.vinilaureto.seriesmanager.entities.Season.Season
+import com.vinilaureto.seriesmanager.entities.Series.Series
 
 class SeasonActivity : AppCompatActivity() {
-    private lateinit var activitySeasonsBinding: ActivitySeasonBinding
+    private lateinit var activitySeasonsBinding: ActivitySeasonsBinding
     private lateinit var addSeasonEditorActivityLauncher: ActivityResultLauncher<Intent>
     private lateinit var editSeasonEditorActivityLauncher: ActivityResultLauncher<Intent>
     private lateinit var episodesActivityLauncher: ActivityResultLauncher<Intent>
@@ -39,7 +39,7 @@ class SeasonActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activitySeasonsBinding = ActivitySeasonBinding.inflate(layoutInflater)
+        activitySeasonsBinding = ActivitySeasonsBinding.inflate(layoutInflater)
         setContentView(activitySeasonsBinding.root)
 
         // Load data
@@ -60,7 +60,7 @@ class SeasonActivity : AppCompatActivity() {
 
         activitySeasonsBinding.seasonLv.setOnItemClickListener{_,_, position, _ ->
             val season = seasonsList[position]
-            val consultEpisodesIntent = Intent(this, EpisodesActivity::class.java)
+            val consultEpisodesIntent = Intent(this, EpisodeActivity::class.java)
             consultEpisodesIntent.putExtra(MainActivity.EXTRA_SEASON, season)
             consultEpisodesIntent.putExtra(MainActivity.EXTRA_SERIES, series)
             consultEpisodesIntent.putExtra(MainActivity.EXTRA_SEASON_POSITION, position)

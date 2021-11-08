@@ -13,13 +13,10 @@
             android:name=".EpisodeEditorActivity"
             android:exported="true" />
         <activity
-            android:name=".EpisodesActivity"
+            android:name=".EpisodeActivity"
             android:exported="true" />
         <activity
             android:name=".SeasonEditorActivity"
-            android:exported="true" />
-        <activity
-            android:name=".SeasonEditor"
             android:exported="true" />
         <activity
             android:name=".SeriesEditorActivity"
