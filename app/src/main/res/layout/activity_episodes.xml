@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/episodeDisplayLl"
+        android:id="@+id/seasonDisplayLl"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Display da série"/>
+            android:text="Display da temporada"/>
     </LinearLayout>
 
     <ListView
@@ -24,21 +24,21 @@
         android:layout_marginRight="7dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/seasonLv"
+        android:id="@+id/episodeLv"
         android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@id/episodeDisplayLl"
+        app:layout_constraintTop_toBottomOf="@id/seasonDisplayLl"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/newSeasonBt"
+        android:id="@+id/newEpisodeBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         app:srcCompat="@drawable/ic_add"
-        android:contentDescription="Nova temporada"
+        android:contentDescription="Novo episódio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="16dp"

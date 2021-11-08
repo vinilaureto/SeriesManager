@@ -19,6 +19,9 @@ import com.vinilaureto.seriesmanager.entities.series.Series
 
 class SeasonActivity : AppCompatActivity() {
     private lateinit var activitySeasonsBinding: ActivitySeasonBinding
+    private lateinit var addSeasonEditorActivityLauncher: ActivityResultLauncher<Intent>
+    private lateinit var editSeasonEditorActivityLauncher: ActivityResultLauncher<Intent>
+    private lateinit var episodesActivityLauncher: ActivityResultLauncher<Intent>
 
     private lateinit var series: Series
     private val seasonController: SeasonController by lazy {
