@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SeriesManager">
         <activity
+            android:name=".EpisodeEditorActivity"
+            android:exported="true" />
+        <activity
             android:name=".EpisodesActivity"
             android:exported="true" />
         <activity
