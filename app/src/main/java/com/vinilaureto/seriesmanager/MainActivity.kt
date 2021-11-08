@@ -4,9 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
+import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import com.google.android.material.snackbar.Snackbar
 import com.vinilaureto.seriesmanager.adapter.SeriesAdapter
 import com.vinilaureto.seriesmanager.controllers.SeriesController
 import com.vinilaureto.seriesmanager.databinding.ActivityMainBinding
@@ -113,5 +117,37 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.context_menu_item, menu)
     }
 
-    // implementar as atividades do menu
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val seriesPosition = (item.menuInfo as AdapterView.AdapterContextMenuInfo).position
+        val series = seriesList[seriesPosition]
+
+        return when (item.itemId) {
+            R.id.editItemMi -> {
+                val editSeriesIntent = Intent(this, SeriesEditorActivity::class.java)
+                editSeriesIntent.putExtra(EXTRA_SERIES, series)
+                editSeriesIntent.putExtra(EXTRA_SERIES_POSITION, seriesPosition)
+                editSeriesEditorActivityLauncher.launch(editSeriesIntent)
+                true
+            }
+            R.id.removeItemMi -> {
+                with(AlertDialog.Builder(this)) {
+                    setMessage("Deseja apagar a série ${series.title}?")
+                    setPositiveButton("Sim") {_, _ ->
+                        seriesList.removeAt(seriesPosition)
+                        seriesAdapter.notifyDataSetChanged()
+                        seriesController.removeSeries(series)
+                        Snackbar.make(activityMainBinding.root, "Série removida", Snackbar.LENGTH_SHORT).show()
+                    }
+                    setNegativeButton("Cancelar") {_,_ ->
+                        Snackbar.make(activityMainBinding.root, "Operação cancelada", Snackbar.LENGTH_SHORT).show()
+                    }
+                    create()
+                }.show()
+                true
+            }
+            else -> {
+                false
+            }
+        }
+    }
 }
