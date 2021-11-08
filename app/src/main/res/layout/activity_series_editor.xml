@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    tools:context=".SeriesEditorActivity">
+
+    <TextView
+        android:id="@+id/seriesNameTv"
+        android:text="Nome da série"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <EditText
+        android:id="@+id/seriesNameEt"
+        android:hint="Ex: Game of Thrones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/seriesNameTv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/seriesYearTv"
+        android:text="Ano de lançamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/seriesNameEt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <EditText
+        android:id="@+id/seriesYearEt"
+        android:hint="Ex: 2012"
+        android:layout_width="match_parent"
+        android:inputType="number"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/seriesYearTv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/seriesChannelTv"
+        android:text="Emissora de exibição"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/seriesYearEt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <EditText
+        android:id="@+id/seriesChannelEt"
+        android:hint="Ex: HBO"
+        android:layout_width="match_parent"
+        android:inputType="text"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/seriesChannelTv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/seriesGenreTv"
+        android:text="Gênero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/seriesChannelEt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Spinner
+        android:id="@+id/seriesGenreSp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/series_genres"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seriesGenreTv" />
+
+    <LinearLayout
+        android:id="@+id/seriesActionsLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="Cancelar"
+            android:onClick="cancelAction"
+            android:textAllCaps="false"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="Salvar"
+            android:onClick="saveAction"
+            android:textAllCaps="false"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
