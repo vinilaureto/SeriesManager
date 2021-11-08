@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         const val EXTRA_SERIES_POSITION = "EXTRA_SERIES_POSITION"
         const val EXTRA_SEASON = "EXTRA_SEASON"
         const val EXTRA_SEASON_POSITION = "EXTRA_SEASON_POSITION"
+        const val EXTRA_EPISODE = "EXTRA_EPISODE"
+        const val EXTRA_EPISODE_POSITION = "EXTRA_EPISODE_POSITION"
     }
 
     private lateinit var activityMainBinding: ActivityMainBinding
