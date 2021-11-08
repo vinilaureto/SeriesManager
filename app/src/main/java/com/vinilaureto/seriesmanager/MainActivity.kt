@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_SERIES = "EXTRA_SERIES"
         const val EXTRA_SERIES_POSITION = "EXTRA_SERIES_POSITION"
+        const val EXTRA_SEASON = "EXTRA_SEASON"
+        const val EXTRA_SEASON_POSITION = "EXTRA_SEASON_POSITION"
     }
 
     private lateinit var activityMainBinding: ActivityMainBinding
