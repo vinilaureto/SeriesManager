@@ -151,4 +151,14 @@ class SeasonActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onBackPressed() {
+        val position = intent.getIntExtra(MainActivity.EXTRA_SERIES_POSITION, -1)
+        val intentResult = Intent()
+        series.seasons = seasonsList.count()
+        intentResult.putExtra(MainActivity.EXTRA_SERIES, series)
+        intentResult.putExtra(MainActivity.EXTRA_SERIES_POSITION, position)
+        setResult(RESULT_OK, intentResult)
+        finish()
+    }
 }
