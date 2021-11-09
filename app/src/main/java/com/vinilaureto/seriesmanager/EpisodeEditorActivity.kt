@@ -7,7 +7,6 @@ import android.view.View
 import com.vinilaureto.seriesmanager.databinding.ActivityEpisodeEditorBinding
 import com.vinilaureto.seriesmanager.entities.Episode.Episode
 import com.vinilaureto.seriesmanager.entities.Season.Season
-import com.vinilaureto.seriesmanager.entities.Series.Series
 
 class EpisodeEditorActivity : AppCompatActivity() {
     private lateinit var activityEpisodeEditorBinding: ActivityEpisodeEditorBinding
@@ -23,7 +22,9 @@ class EpisodeEditorActivity : AppCompatActivity() {
         position = intent.getIntExtra(MainActivity.EXTRA_EPISODE_POSITION, -1)
         if (episode != null) {
             activityEpisodeEditorBinding.episodeNumberEt.setText(episode.number.toString())
-            activityEpisodeEditorBinding.episodeTitleEt.setText(episode.title.toString())
+            activityEpisodeEditorBinding.episodeTitleEt.setText(episode.title)
+            activityEpisodeEditorBinding.episodeDurationEt.setText(episode.duration)
+            activityEpisodeEditorBinding.episodeWatchedCb.isChecked = episode.watched
         }
     }
 
@@ -33,8 +34,8 @@ class EpisodeEditorActivity : AppCompatActivity() {
         val episode = Episode(
             activityEpisodeEditorBinding.episodeNumberEt.text.toString().toInt(),
             activityEpisodeEditorBinding.episodeTitleEt.text.toString(),
-            "",
-            false
+            activityEpisodeEditorBinding.episodeDurationEt.text.toString(),
+            activityEpisodeEditorBinding.episodeWatchedCb.isChecked
         )
 
         if (season != null) {

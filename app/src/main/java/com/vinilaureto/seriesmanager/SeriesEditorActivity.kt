@@ -1,6 +1,7 @@
 package com.vinilaureto.seriesmanager
 
 import android.content.Intent
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -25,7 +26,17 @@ class SeriesEditorActivity : AppCompatActivity() {
             activitySeriesEditorBinding.seriesNameEt.setText(series.title)
             activitySeriesEditorBinding.seriesYearEt.setText(series.year.toString())
             activitySeriesEditorBinding.seriesChannelEt.setText(series.channel)
+            activitySeriesEditorBinding.seriesGenreSp.setSelection(spinnerValueAdapter(series.genre))
         }
+    }
+
+    fun spinnerValueAdapter(value: String): Int {
+        val res: Resources = resources
+        val spinnerValues = res.getStringArray(R.array.series_genres)
+        for ((index, element) in spinnerValues.withIndex()) {
+            if (element == value) return index
+        }
+        return 0
     }
 
     fun saveAction(view: View) {
@@ -33,7 +44,7 @@ class SeriesEditorActivity : AppCompatActivity() {
             activitySeriesEditorBinding.seriesNameEt.text.toString(),
             activitySeriesEditorBinding.seriesYearEt.text.toString().toInt(),
             activitySeriesEditorBinding.seriesChannelEt.text.toString(),
-            ""
+            activitySeriesEditorBinding.seriesGenreSp.selectedItem.toString()
         )
 
         val intentResult = Intent()

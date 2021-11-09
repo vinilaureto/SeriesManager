@@ -25,7 +25,7 @@ class Database (context: Context): SeriesDAO, SeasonDAO, EpisodeDAO {
         private val COL_SERIES_ID = "id"
 
         private val CREATE_SERIES_TABLE_STM = "CREATE TABLE IF NOT EXISTS $TABLE_SERIES (" +
-                "$COL_SERIES_TITLE TEXT NOT NULL," +
+                "$COL_SERIES_TITLE TEXT NOT NULL UNIQUE," +
                 "$COL_SERIES_YEAR INTEGER NOT NULL," +
                 "$COL_SERIES_CHANNEL TEXT NOT NULL, " +
                 "$COL_SERIES_GENRE TEXT NOT NULL," +

@@ -35,8 +35,8 @@ class EpisodeAdapter (
         val episodeLayoutHolder = episodeLayoutView.tag as EpisodeLayoutHolder
         with(episodeLayoutHolder) {
             numberNameTv.text = "${episode.number.toString()} - ${episode.title.toString()}"
-            durantionTv.text = "Duração: ${episode.duration}.toString()"
-            watchedTv.text = "Assistido: " + episode.watched.toString()
+            durantionTv.text = "Duração: ${episode.duration.toString()}"
+            watchedTv.text = "Assistido: " + (if (episode.watched) "Sim :)" else "Não :/")
         }
 
         return episodeLayoutView

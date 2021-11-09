@@ -65,6 +65,17 @@ class EpisodeActivity : AppCompatActivity() {
             addEpisodeEditorActivityLauncher.launch(addIntent)
         }
 
+        activityEpisodeBinding.episodeLv.setOnItemClickListener{_,_, position, _ ->
+            val episode = episodeList[position]
+            val editEpisodeIntent = Intent(this, EpisodeEditorActivity::class.java)
+            val season = intent.getParcelableExtra<Season>(MainActivity.EXTRA_SEASON)!!
+
+            editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE, episode)
+            editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE_POSITION, position)
+            editEpisodeIntent.putExtra(MainActivity.EXTRA_SEASON, season)
+            editEpisodeEditorActivityLauncher.launch(editEpisodeIntent)
+        }
+
         // Launchers
         addEpisodeEditorActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -73,7 +84,6 @@ class EpisodeActivity : AppCompatActivity() {
                     episodeList.add(episode)
                     episodeController.newEpisode(episode)
                     episodeAdapter.notifyDataSetChanged()
-
                 }
             }
         }

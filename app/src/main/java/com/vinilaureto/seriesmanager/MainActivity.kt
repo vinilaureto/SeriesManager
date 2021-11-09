@@ -17,9 +17,8 @@ import com.vinilaureto.seriesmanager.databinding.ActivityMainBinding
 import com.vinilaureto.seriesmanager.entities.Series.Series
 
 /*
-* 1 - Todos os campos funcionando com os valores no banco
-* 2 - Display de série e temporada
-* 4 - Flag de assistido no botão OU ver se é possivel adicionar os generos
+* 2 - Cabeçalho dinâmico
+* 3 - Genero dinâmico
 */
 
 class MainActivity : AppCompatActivity() {

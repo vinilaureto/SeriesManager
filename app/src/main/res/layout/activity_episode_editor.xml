@@ -55,13 +55,32 @@
 
     <EditText
         android:id="@+id/episodeDurationEt"
-        android:hint="Ex: Red Wedding"
+        android:hint="Ex: 00:00:00"
         android:layout_width="match_parent"
         android:inputType="time"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/episodeDurationTv"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/episodeWatchedTv"
+        android:text="Episódio assistido?"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/episodeDurationEt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <CheckBox
+        android:id="@+id/episodeWatchedCb"
+        android:text="Assistido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/episodeWatchedTv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 
 
     <LinearLayout
