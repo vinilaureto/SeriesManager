@@ -29,7 +29,7 @@ class EpisodeEditorActivity : AppCompatActivity() {
             activityEpisodeEditorBinding.episodeWatchedCb.isChecked = episode.watched
         }
 
-        supportActionBar?.title = if (episode != null) "${episode.title}" else "Novo episódio"
+        supportActionBar?.title = episode?.title ?: "Novo episódio"
         supportActionBar?.subtitle = "Detalhes do episódio"
     }
 
@@ -46,9 +46,7 @@ class EpisodeEditorActivity : AppCompatActivity() {
             )
 
             val season = intent.getParcelableExtra<Season>(MainActivity.EXTRA_SEASON)!!
-            if (season != null) {
-                episode.seasonId = season.id
-            }
+            episode.seasonId = season.id
 
             val intentResult = Intent()
             intentResult.putExtra(MainActivity.EXTRA_EPISODE, episode)
