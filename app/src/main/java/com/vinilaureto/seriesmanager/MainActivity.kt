@@ -16,11 +16,6 @@ import com.vinilaureto.seriesmanager.controllers.SeriesController
 import com.vinilaureto.seriesmanager.databinding.ActivityMainBinding
 import com.vinilaureto.seriesmanager.entities.Series.Series
 
-/*
-* 2 - Cabeçalho dinâmico
-* 3 - Genero dinâmico
-*/
-
 class MainActivity : AppCompatActivity() {
     companion object Extras {
         const val EXTRA_SERIES = "EXTRA_SERIES"

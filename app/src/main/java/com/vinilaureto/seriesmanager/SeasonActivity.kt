@@ -47,6 +47,7 @@ class SeasonActivity : AppCompatActivity() {
         prepareSeasonsList(series.id)
         activitySeasonsBinding.seasonLv.adapter = seasonAdapter
         supportActionBar?.title = series.title
+        supportActionBar?.subtitle = "${seasonsList.count().toString()} ${if (seasonsList.count() != 1) "temporadas" else "temporada"}"
 
         // Menu
         registerForContextMenu(activitySeasonsBinding.seasonLv)
@@ -75,6 +76,7 @@ class SeasonActivity : AppCompatActivity() {
                     seasonsList.add(season)
                     seasonController.newSeason(season)
                     seasonAdapter.notifyDataSetChanged()
+                    supportActionBar?.subtitle = "${seasonsList.count().toString()} ${if (seasonsList.count() != 1) "temporadas" else "temporada"}"
                 }
             }
         }
@@ -87,6 +89,7 @@ class SeasonActivity : AppCompatActivity() {
                         seasonController.updateSeason(this)
                         seasonsList[position] = this
                         seasonAdapter.notifyDataSetChanged()
+                        supportActionBar?.subtitle = "${seasonsList.count().toString()} ${if (seasonsList.count() != 1) "temporadas" else "temporada"}"
                     }
                 }
             }
@@ -100,6 +103,7 @@ class SeasonActivity : AppCompatActivity() {
                         seasonController.updateSeason(this)
                         seasonsList[position] = this
                         seasonAdapter.notifyDataSetChanged()
+                        supportActionBar?.subtitle = "${seasonsList.count().toString()} ${if (seasonsList.count() != 1) "temporadas" else "temporada"}"
                     }
                 }
             }
@@ -137,6 +141,7 @@ class SeasonActivity : AppCompatActivity() {
                         seasonsList.removeAt(seasonPosition)
                         seasonAdapter.notifyDataSetChanged()
                         seasonController.removeSeason(season)
+                        supportActionBar?.subtitle = "${seasonsList.count().toString()} ${if (seasonsList.count() != 1) "temporadas" else "temporada"}"
                         Snackbar.make(activitySeasonsBinding.root, "Temporada removida", Snackbar.LENGTH_SHORT).show()
                     }
                     setNegativeButton("Cancelar") {_,_ ->
@@ -144,6 +149,7 @@ class SeasonActivity : AppCompatActivity() {
                     }
                     create()
                 }.show()
+
                 true
             }
             else -> {

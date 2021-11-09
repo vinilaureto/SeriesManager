@@ -50,7 +50,7 @@ class EpisodeActivity : AppCompatActivity() {
         prepareEpisodeList(season.id)
         activityEpisodeBinding.episodeLv.adapter = episodeAdapter
         supportActionBar?.title = series.title
-        supportActionBar?.subtitle = "Temporada ${season.number}"
+        supportActionBar?.subtitle = "Temporada ${season.number} - ${episodeList.count()} ${if (episodeList.count() != 1) "episódio" else "episódios"}"
 
 
         // Menu
@@ -59,8 +59,6 @@ class EpisodeActivity : AppCompatActivity() {
         // Actions
         activityEpisodeBinding.newEpisodeBt.setOnClickListener {
             val addIntent = Intent(this, EpisodeEditorActivity::class.java)
-            println("------------ SAIDA")
-            println(season)
             addIntent.putExtra(MainActivity.EXTRA_SEASON, season)
             addEpisodeEditorActivityLauncher.launch(addIntent)
         }
@@ -84,6 +82,7 @@ class EpisodeActivity : AppCompatActivity() {
                     episodeList.add(episode)
                     episodeController.newEpisode(episode)
                     episodeAdapter.notifyDataSetChanged()
+                    supportActionBar?.subtitle = "Temporada ${season.number} - ${episodeList.count()} ${if (episodeList.count() != 1) "episódios" else "episódio"}"
                 }
             }
         }
@@ -96,6 +95,7 @@ class EpisodeActivity : AppCompatActivity() {
                         episodeController.updateEpisode(this)
                         episodeList[position] = this
                         episodeAdapter.notifyDataSetChanged()
+                        supportActionBar?.subtitle = "Temporada ${season.number} - ${episodeList.count()} ${if (episodeList.count() != 1) "episódio" else "episódios"}"
                     }
                 }
             }
@@ -133,6 +133,7 @@ class EpisodeActivity : AppCompatActivity() {
                         episodeList.removeAt(episodePosition)
                         episodeAdapter.notifyDataSetChanged()
                         episodeController.removeEpisode(episode)
+                        supportActionBar?.subtitle = "Temporada ${season.number} - ${episodeList.count()} ${if (episodeList.count() != 1) "episódio" else "episódios"}"
                         Snackbar.make(activityEpisodeBinding.root, "Episódio removido", Snackbar.LENGTH_SHORT).show()
                     }
                     setNegativeButton("Cancelar") {_,_ ->

@@ -27,6 +27,9 @@ class SeasonEditorActivity : AppCompatActivity() {
             activitySeasonEditorBinding.seasonNumberEt.setText(season.number.toString())
             activitySeasonEditorBinding.seasonYearEt.setText(season.year.toString())
         }
+
+        supportActionBar?.title = if (season != null) "Temporada ${season.number}" else "Nova temporada"
+        supportActionBar?.subtitle = "Detalhes da temporada"
     }
 
     fun saveAction(view: View) {

@@ -9,7 +9,6 @@ import com.vinilaureto.seriesmanager.database.Database
 import com.vinilaureto.seriesmanager.databinding.ActivityEpisodeEditorBinding
 import com.vinilaureto.seriesmanager.entities.Episode.Episode
 import com.vinilaureto.seriesmanager.entities.Season.Season
-import com.vinilaureto.seriesmanager.entities.Series.Series
 
 class EpisodeEditorActivity : AppCompatActivity() {
     private lateinit var activityEpisodeEditorBinding: ActivityEpisodeEditorBinding
@@ -29,6 +28,9 @@ class EpisodeEditorActivity : AppCompatActivity() {
             activityEpisodeEditorBinding.episodeDurationEt.setText(episode.duration)
             activityEpisodeEditorBinding.episodeWatchedCb.isChecked = episode.watched
         }
+
+        supportActionBar?.title = if (episode != null) "${episode.title}" else "Novo episódio"
+        supportActionBar?.subtitle = "Detalhes do episódio"
     }
 
     fun saveAction(view: View) {

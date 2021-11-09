@@ -22,6 +22,8 @@ class SeriesEditorActivity : AppCompatActivity() {
         activitySeriesEditorBinding = ActivitySeriesEditorBinding.inflate(layoutInflater)
         setContentView(activitySeriesEditorBinding.root)
 
+
+
         val series = intent.getParcelableExtra<Series>(MainActivity.EXTRA_SERIES)
         position = intent.getIntExtra(MainActivity.EXTRA_SERIES_POSITION, -1)
         if (series != null) {
@@ -30,6 +32,9 @@ class SeriesEditorActivity : AppCompatActivity() {
             activitySeriesEditorBinding.seriesChannelEt.setText(series.channel)
             activitySeriesEditorBinding.seriesGenreSp.setSelection(spinnerValueAdapter(series.genre))
         }
+
+        supportActionBar?.title = series?.title ?: "Nova série"
+        supportActionBar?.subtitle = "Detalhes da série"
     }
 
     fun spinnerValueAdapter(value: String): Int {
