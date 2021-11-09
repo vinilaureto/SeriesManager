@@ -9,6 +9,7 @@ class SeriesController(mainActivity: MainActivity) {
 
     fun newSeries(series: Series) = database.createSeries(series)
     fun findAllSeries() = database.findAllSeries()
+    fun findByTitle(title: String) = database.findSeriesByTitle(title)
     fun updateSeries(series: Series) = database.updateSeries(series)
     fun removeSeries(series: Series) = database.removeSeries(series)
 }

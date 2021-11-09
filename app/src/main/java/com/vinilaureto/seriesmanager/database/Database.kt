@@ -120,6 +120,27 @@ class Database (context: Context): SeriesDAO, SeasonDAO, EpisodeDAO {
         return seriesList
     }
 
+    override fun findSeriesByTitle(title: String): MutableList<Series> {
+        val seriesList: MutableList<Series> = mutableListOf()
+        val seriesQuery = database.query(true, TABLE_SERIES, null, "$COL_SERIES_TITLE = ?", arrayOf(title), null, null, null, null)
+
+        while (seriesQuery.moveToNext()) {
+            with(seriesQuery) {
+                seriesList.add(
+                    Series(
+                        getString(getColumnIndexOrThrow(COL_SERIES_TITLE)),
+                        getInt(getColumnIndexOrThrow(COL_SERIES_YEAR)),
+                        getString(getColumnIndexOrThrow(COL_SERIES_CHANNEL)),
+                        getString(getColumnIndexOrThrow(COL_SERIES_GENRE)),
+                        findSeasonsBySeriesId(getString(getColumnIndexOrThrow(COL_SEASON_ID))).count(),
+                        getString(getColumnIndexOrThrow(COL_SERIES_ID)))
+                )
+            }
+        }
+
+        return seriesList
+    }
+
     override fun updateSeries(series: Series): Int {
         val convertedSeries = databaseSeriesAdapter(series)
         return database.update(TABLE_SERIES, convertedSeries, "${COL_SERIES_ID} = ?", arrayOf(series.id))
@@ -167,6 +188,27 @@ class Database (context: Context): SeriesDAO, SeasonDAO, EpisodeDAO {
         return seasonsList
     }
 
+    override fun findOneSeasonBySeriesId(seriesId: String, seasonNumber: Int): MutableList<Season> {
+        val seasonsList: MutableList<Season> = mutableListOf()
+        val seasonsQuery = database.query(true, TABLE_SEASON, null, "$COL_SEASON_SERIES_ID = ? AND $COL_SEASON_NUMBER = ?", arrayOf(seriesId, seasonNumber.toString()), null, null, null, null)
+
+        while (seasonsQuery.moveToNext()) {
+            with(seasonsQuery) {
+                seasonsList.add(
+                    Season(
+                        getInt(getColumnIndexOrThrow(COL_SEASON_NUMBER)),
+                        getInt(getColumnIndexOrThrow(COL_SEASON_YEAR)),
+                        findAllEpisodesBySeason(getString(getColumnIndexOrThrow(COL_SEASON_ID))).count(),
+                        getString(getColumnIndexOrThrow(COL_SEASON_SERIES_ID)),
+                        getString(getColumnIndexOrThrow(COL_SEASON_ID))
+                    )
+                )
+            }
+        }
+
+        return seasonsList
+    }
+
     override fun updateSeason(season: Season): Int {
         val convertedSeason = databaseSeasonAdapter(season)
         return database.update(TABLE_SEASON, convertedSeason, "${COL_SEASON_ID} = ?", arrayOf(season.id))
@@ -175,7 +217,6 @@ class Database (context: Context): SeriesDAO, SeasonDAO, EpisodeDAO {
     override fun removeSeason(season: Season): Int {
         return database.delete(TABLE_SEASON, "$COL_SEASON_ID = ?", arrayOf(season.id))
     }
-
 
     /* Episode implementation */
     private fun databaseEpisodeAdapter(episode: Episode): ContentValues? {
@@ -224,5 +265,30 @@ class Database (context: Context): SeriesDAO, SeasonDAO, EpisodeDAO {
 
     override fun removeEpisode(episode: Episode): Int {
         return database.delete(TABLE_EPISODES, "$COL_EPISODE_ID = ?", arrayOf(episode.id))
+    }
+
+    override fun findOneEpisodeBySeasonId(
+        seasonId: String,
+        episodeNumber: Int
+    ): MutableList<Episode> {
+        val episodeList: MutableList<Episode> = mutableListOf()
+        val episodeQuery = database.query(true, TABLE_EPISODES, null, "${COL_EPISODE_SEASON_ID} = ? AND ${COL_EPISODE_NUMBER} = ?", arrayOf(seasonId, episodeNumber.toString()), null, null, null, null)
+
+        while (episodeQuery.moveToNext()) {
+            with(episodeQuery) {
+                episodeList.add(
+                    Episode(
+                        getInt(getColumnIndexOrThrow(COL_EPISODE_NUMBER)),
+                        getString(getColumnIndexOrThrow(COL_EPISODE_TITLE)),
+                        getString(getColumnIndexOrThrow(COL_EPISODE_DURATION)),
+                        getString(getColumnIndexOrThrow(COL_EPISODE_WATCHED)).toBoolean(),
+                        getString(getColumnIndexOrThrow(COL_EPISODE_SEASON_ID)),
+                        getString(getColumnIndexOrThrow(COL_EPISODE_ID))
+                    )
+                )
+            }
+        }
+
+        return episodeList
     }
 }

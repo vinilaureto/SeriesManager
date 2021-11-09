@@ -5,6 +5,8 @@ import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.google.android.material.snackbar.Snackbar
+import com.vinilaureto.seriesmanager.database.Database
 import com.vinilaureto.seriesmanager.databinding.ActivitySeriesEditorBinding
 import com.vinilaureto.seriesmanager.entities.Season.Season
 import com.vinilaureto.seriesmanager.entities.Series.Series
@@ -40,31 +42,51 @@ class SeriesEditorActivity : AppCompatActivity() {
     }
 
     fun saveAction(view: View) {
-        val series = Series(
-            activitySeriesEditorBinding.seriesNameEt.text.toString(),
-            activitySeriesEditorBinding.seriesYearEt.text.toString().toInt(),
-            activitySeriesEditorBinding.seriesChannelEt.text.toString(),
-            activitySeriesEditorBinding.seriesGenreSp.selectedItem.toString()
-        )
+        val currentSeries = intent.getParcelableExtra<Series>(MainActivity.EXTRA_SERIES)
+        val editValue = currentSeries != null
 
-        val intentResult = Intent()
-        intentResult.putExtra(MainActivity.EXTRA_SERIES, series)
-        if (position != -1) {
-            val currentSeries = intent.getParcelableExtra<Series>(MainActivity.EXTRA_SERIES)
-            if (currentSeries != null) {
-                series.id = currentSeries.id
-                series.seasons = currentSeries.seasons
+        if (validateForms(editValue)) {
+            val series = Series(
+                activitySeriesEditorBinding.seriesNameEt.text.toString(),
+                activitySeriesEditorBinding.seriesYearEt.text.toString().toInt(),
+                activitySeriesEditorBinding.seriesChannelEt.text.toString(),
+                activitySeriesEditorBinding.seriesGenreSp.selectedItem.toString()
+            )
+
+            val intentResult = Intent()
+            intentResult.putExtra(MainActivity.EXTRA_SERIES, series)
+            if (position != -1) {
+                val currentSeries = intent.getParcelableExtra<Series>(MainActivity.EXTRA_SERIES)
+                if (currentSeries != null) {
+                    series.id = currentSeries.id
+                    series.seasons = currentSeries.seasons
+                }
+                intentResult.putExtra(MainActivity.EXTRA_SERIES_POSITION, position)
             }
-            intentResult.putExtra(MainActivity.EXTRA_SERIES_POSITION, position)
-        }
 
-        setResult(RESULT_OK, intentResult)
-        finish()
+            setResult(RESULT_OK, intentResult)
+            finish()
+        }
     }
 
     fun cancel(view: View) {
         finish()
     }
 
+    fun validateForms(editValue: Boolean): Boolean {
+        if (activitySeriesEditorBinding.seriesNameEt.text.toString() == "" ||
+            activitySeriesEditorBinding.seriesYearEt.text.toString() == "" ||
+            activitySeriesEditorBinding.seriesChannelEt.text.toString() == "") {
+            Snackbar.make(activitySeriesEditorBinding.root, "Todos os campos devem ser preenchidos", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
 
+        val database = Database(this)
+        val resultsInDatabase = if (editValue) 1 else 0
+        if (database.findSeriesByTitle(activitySeriesEditorBinding.seriesNameEt.text.toString()).count() != resultsInDatabase) {
+            Snackbar.make(activitySeriesEditorBinding.root, "Já existe uma série com esse nome", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
 }
