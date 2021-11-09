@@ -77,8 +77,6 @@ class EpisodeEditorActivity : AppCompatActivity() {
 
         val database = Database(this)
         val resultsInDatabase = if (editValue) 1 else 0
-        println("=====================================")
-        println(resultsInDatabase)
         if (database.findOneEpisodeBySeasonId(season.id, activityEpisodeEditorBinding.episodeNumberEt.text.toString().toInt()).count() != resultsInDatabase) {
             Snackbar.make(activityEpisodeEditorBinding.root, "Número do episódio já existe", Snackbar.LENGTH_SHORT).show()
             return false

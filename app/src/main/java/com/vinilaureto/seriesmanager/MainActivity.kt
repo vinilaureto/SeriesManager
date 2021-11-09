@@ -102,7 +102,6 @@ class MainActivity : AppCompatActivity() {
                 val position = result.data?.getIntExtra(EXTRA_SERIES_POSITION, -1)
                 result.data?.getParcelableExtra<Series>(EXTRA_SERIES)?.apply {
                     if (position != null && position != -1) {
-                        println(this)
                         seriesController.updateSeries(this)
                         seriesList[position] = this
                         seriesAdapter.notifyDataSetChanged()
