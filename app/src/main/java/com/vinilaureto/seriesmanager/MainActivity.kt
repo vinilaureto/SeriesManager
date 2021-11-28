@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
         supportActionBar?.title = "SeriesManager"
+        supportActionBar?.subtitle = "Lista de séries"
 
         // Load data
         prepareSeriesList()
@@ -126,6 +128,20 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         menuInflater.inflate(R.menu.context_menu_item, menu)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.logoutMi -> {
+            AuthFirebase.firebaseAuth.signOut()
+            finish()
+            true
+        }
+        else -> { false }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {

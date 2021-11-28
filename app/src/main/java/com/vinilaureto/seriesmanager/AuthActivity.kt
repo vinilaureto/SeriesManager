@@ -27,12 +27,22 @@ class AuthActivity : AppCompatActivity() {
             val email = activityAuthBinding.emailEt.text.toString()
             val password = activityAuthBinding.passwordEt.text.toString()
             AuthFirebase.firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+                startMainActivity()
             }.addOnFailureListener {
                 Toast.makeText(this, "Usuário e/ou senha incorretos", Toast.LENGTH_LONG).show()
             }
         }
+    }
 
+    override fun onStart() {
+        super.onStart()
+        if (AuthFirebase.firebaseAuth.currentUser != null) {
+            startMainActivity()
+        }
+    }
+
+    private fun startMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }
