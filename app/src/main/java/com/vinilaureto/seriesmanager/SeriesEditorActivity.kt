@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
+import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.database.Database
 import com.vinilaureto.seriesmanager.databinding.ActivitySeriesEditorBinding
 import com.vinilaureto.seriesmanager.entities.Season.Season
@@ -93,5 +94,12 @@ class SeriesEditorActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (AuthFirebase.firebaseAuth.currentUser == null) {
+            finish()
+        }
     }
 }

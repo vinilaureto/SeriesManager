@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import com.vinilaureto.seriesmanager.adapter.SeriesAdapter
+import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.controllers.SeriesController
 import com.vinilaureto.seriesmanager.databinding.ActivityMainBinding
 import com.vinilaureto.seriesmanager.entities.Series.Series
@@ -108,6 +109,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (AuthFirebase.firebaseAuth.currentUser == null) {
+            finish()
         }
     }
 

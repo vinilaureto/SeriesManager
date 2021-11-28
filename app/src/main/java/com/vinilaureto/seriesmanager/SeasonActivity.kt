@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import com.vinilaureto.seriesmanager.adapter.SeasonAdapter
+import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.controllers.SeasonController
 import com.vinilaureto.seriesmanager.databinding.ActivitySeasonsBinding
 import com.vinilaureto.seriesmanager.entities.Season.Season
@@ -166,5 +167,12 @@ class SeasonActivity : AppCompatActivity() {
         intentResult.putExtra(MainActivity.EXTRA_SERIES_POSITION, position)
         setResult(RESULT_OK, intentResult)
         finish()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (AuthFirebase.firebaseAuth.currentUser == null) {
+            finish()
+        }
     }
 }
