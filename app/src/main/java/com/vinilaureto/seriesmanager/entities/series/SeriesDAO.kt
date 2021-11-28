@@ -5,4 +5,5 @@ interface SeriesDAO {
     fun findAllSeries(): MutableList<Series>
     fun updateSeries(series: Series): Int
     fun removeSeries(series: Series): Int
+    fun findSeriesByTitle(title: String): MutableList<Series>
 }

@@ -1,11 +1,10 @@
 package com.vinilaureto.seriesmanager.controllers
 
-import com.vinilaureto.seriesmanager.SeasonActivity
-import com.vinilaureto.seriesmanager.database.Database
+import com.vinilaureto.seriesmanager.database.SeasonFirebaseDb
 import com.vinilaureto.seriesmanager.entities.Season.Season
 
-class SeasonController(seasonActivity: SeasonActivity) {
-    private val database = Database(seasonActivity)
+class SeasonController() {
+    private val database = SeasonFirebaseDb()
 
     fun newSeason(season: Season) = database.createSeason(season)
     fun findAllSeasonsBySeries(seriesId: String) = database.findSeasonsBySeriesId(seriesId)

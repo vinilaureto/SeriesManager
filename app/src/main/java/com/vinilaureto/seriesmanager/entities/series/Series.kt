@@ -6,10 +6,11 @@ import java.util.*
 
 @Parcelize
 data class Series (
-    var title: String,
-    var year: Int,
-    var channel: String,
-    var genre: String,
+    var userCode: String = "",
+    var title: String? = null,
+    var year: Int? = null,
+    var channel: String? = null,
+    var genre: String? = null,
     var seasons: Int = 0,
     var id: String = UUID.randomUUID().toString()
 ) : Parcelable

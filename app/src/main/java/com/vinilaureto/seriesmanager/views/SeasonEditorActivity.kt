@@ -1,13 +1,12 @@
-package com.vinilaureto.seriesmanager
+package com.vinilaureto.seriesmanager.views
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
-import com.vinilaureto.seriesmanager.database.Database
+import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.databinding.ActivitySeasonEditorBinding
-import com.vinilaureto.seriesmanager.entities.Episode.Episode
 import com.vinilaureto.seriesmanager.entities.Season.Season
 import com.vinilaureto.seriesmanager.entities.Series.Series
 
@@ -75,12 +74,26 @@ class SeasonEditorActivity : AppCompatActivity() {
             return false
         }
 
-        val database = Database(this)
+        val seasonList = intent.getParcelableArrayListExtra<Season>(MainActivity.EXTRA_SEASON_LIST)
         val resultsInDatabase = if (editValue) 1 else 0
-        if (database.findOneSeasonBySeriesId(series.id, activitySeasonEditorBinding.seasonNumberEt.text.toString().toInt()).count() != resultsInDatabase) {
+        var resultsFound = 0
+        seasonList.forEach {
+            if (it.number.toString() == activitySeasonEditorBinding.seasonNumberEt.text.toString()) {
+                resultsFound++
+            }
+        }
+        if (resultsFound > resultsInDatabase) {
             Snackbar.make(activitySeasonEditorBinding.root, "Número da temporada já existe", Snackbar.LENGTH_SHORT).show()
             return false
         }
+
         return true
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (AuthFirebase.firebaseAuth.currentUser == null) {
+            finish()
+        }
     }
 }
