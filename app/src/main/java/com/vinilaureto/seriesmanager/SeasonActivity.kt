@@ -85,6 +85,7 @@ class SeasonActivity : AppCompatActivity() {
         activitySeasonsBinding.newSeasonBt.setOnClickListener {
             val addIntent = Intent(this, SeasonEditorActivity::class.java)
             addIntent.putExtra(MainActivity.EXTRA_SERIES, series)
+            addIntent.putParcelableArrayListExtra(MainActivity.EXTRA_SEASON_LIST, ArrayList(seasonsList))
             addSeasonEditorActivityLauncher.launch(addIntent)
         }
 
@@ -94,6 +95,7 @@ class SeasonActivity : AppCompatActivity() {
             consultEpisodesIntent.putExtra(MainActivity.EXTRA_SEASON, season)
             consultEpisodesIntent.putExtra(MainActivity.EXTRA_SERIES, series)
             consultEpisodesIntent.putExtra(MainActivity.EXTRA_SEASON_POSITION, position)
+            consultEpisodesIntent.putParcelableArrayListExtra(MainActivity.EXTRA_SEASON_LIST, ArrayList(seasonsList))
             episodesActivityLauncher.launch(consultEpisodesIntent)
         }
 

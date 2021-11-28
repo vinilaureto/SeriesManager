@@ -32,10 +32,6 @@ class EpisodeActivity : AppCompatActivity() {
 
     // Data source
     private var episodeList: MutableList<Episode> = mutableListOf()
-    private fun prepareEpisodeList(seasonId: String) {
-        episodeList = episodeController.findAllEpisodeBySeason(seasonId)
-    }
-
     private val episodeAdapter: EpisodeAdapter by lazy {
         EpisodeAdapter(this, R.layout.layout_episode, episodeList)
     }
@@ -86,6 +82,7 @@ class EpisodeActivity : AppCompatActivity() {
         activityEpisodeBinding.newEpisodeBt.setOnClickListener {
             val addIntent = Intent(this, EpisodeEditorActivity::class.java)
             addIntent.putExtra(MainActivity.EXTRA_SEASON, season)
+            addIntent.putParcelableArrayListExtra(MainActivity.EXTRA_EPISODES_LIST, ArrayList(episodeList))
             addEpisodeEditorActivityLauncher.launch(addIntent)
         }
 
@@ -97,6 +94,7 @@ class EpisodeActivity : AppCompatActivity() {
             editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE, episode)
             editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE_POSITION, position)
             editEpisodeIntent.putExtra(MainActivity.EXTRA_SEASON, season)
+            editEpisodeIntent.putParcelableArrayListExtra(MainActivity.EXTRA_EPISODES_LIST, ArrayList(episodeList))
             editEpisodeEditorActivityLauncher.launch(editEpisodeIntent)
         }
 

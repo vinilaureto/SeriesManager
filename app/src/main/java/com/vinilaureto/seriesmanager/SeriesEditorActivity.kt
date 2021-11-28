@@ -8,6 +8,7 @@ import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.databinding.ActivitySeriesEditorBinding
+import com.vinilaureto.seriesmanager.entities.Season.Season
 import com.vinilaureto.seriesmanager.entities.Series.Series
 
 class SeriesEditorActivity : AppCompatActivity() {
@@ -85,12 +86,19 @@ class SeriesEditorActivity : AppCompatActivity() {
             return false
         }
 
-//        val database = Database(this)
-//        val resultsInDatabase = if (editValue) 1 else 0
-//        if (database.findSeriesByTitle(activitySeriesEditorBinding.seriesNameEt.text.toString()).count() != resultsInDatabase) {
-//            Snackbar.make(activitySeriesEditorBinding.root, "Já existe uma série com esse nome", Snackbar.LENGTH_SHORT).show()
-//            return false
-//        }
+        val seriesList = intent.getParcelableArrayListExtra<Series>(MainActivity.EXTRA_SERIES_LIST)
+        val resultsInDatabase = if (editValue) 1 else 0
+        var resultsFound = 0
+        seriesList.forEach {
+            if (it.title == activitySeriesEditorBinding.seriesNameEt.text.toString()) {
+                resultsFound++
+            }
+        }
+        if (resultsFound > resultsInDatabase) {
+            Snackbar.make(activitySeriesEditorBinding.root, "Título da séries já existe", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+
         return true
     }
 

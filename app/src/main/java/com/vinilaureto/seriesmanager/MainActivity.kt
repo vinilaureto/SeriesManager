@@ -24,10 +24,13 @@ class MainActivity : AppCompatActivity() {
     companion object Extras {
         const val EXTRA_SERIES = "EXTRA_SERIES"
         const val EXTRA_SERIES_POSITION = "EXTRA_SERIES_POSITION"
+        const val EXTRA_SERIES_LIST = "EXTRA_SERIES_LIST"
         const val EXTRA_SEASON = "EXTRA_SEASON"
         const val EXTRA_SEASON_POSITION = "EXTRA_SEASON_POSITION"
+        const val EXTRA_SEASON_LIST = "EXTRA_SEASON_LIST"
         const val EXTRA_EPISODE = "EXTRA_EPISODE"
         const val EXTRA_EPISODE_POSITION = "EXTRA_EPISODE_POSITION"
+        const val EXTRA_EPISODES_LIST = "EXTRA_EPISODES_LIST"
     }
 
     private lateinit var activityMainBinding: ActivityMainBinding
@@ -88,7 +91,9 @@ class MainActivity : AppCompatActivity() {
 
         // Actions
         activityMainBinding.newSeriesBt.setOnClickListener {
-            addSeriesEditorActivityLauncher.launch(Intent(this, SeriesEditorActivity::class.java))
+            val addIntent = Intent(this, SeriesEditorActivity::class.java)
+            addIntent.putParcelableArrayListExtra(EXTRA_SERIES_LIST, ArrayList(seriesList))
+            addSeriesEditorActivityLauncher.launch(addIntent)
         }
 
         activityMainBinding.seriesLv.setOnItemClickListener{_,_, position, _ ->
@@ -96,6 +101,7 @@ class MainActivity : AppCompatActivity() {
             val consultSeriesIntent = Intent(this, SeasonActivity::class.java)
             consultSeriesIntent.putExtra(EXTRA_SERIES, series)
             consultSeriesIntent.putExtra(EXTRA_SERIES_POSITION, position)
+            consultSeriesIntent.putParcelableArrayListExtra(EXTRA_SERIES_LIST, ArrayList(seriesList))
             seasonActivityLauncher.launch(consultSeriesIntent)
         }
 
