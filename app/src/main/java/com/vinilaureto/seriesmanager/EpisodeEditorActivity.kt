@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.vinilaureto.seriesmanager.auth.AuthFirebase
-import com.vinilaureto.seriesmanager.database.Database
 import com.vinilaureto.seriesmanager.databinding.ActivityEpisodeEditorBinding
 import com.vinilaureto.seriesmanager.entities.Episode.Episode
 import com.vinilaureto.seriesmanager.entities.Season.Season
@@ -76,12 +75,12 @@ class EpisodeEditorActivity : AppCompatActivity() {
             return false
         }
 
-        val database = Database(this)
-        val resultsInDatabase = if (editValue) 1 else 0
-        if (database.findOneEpisodeBySeasonId(season.id, activityEpisodeEditorBinding.episodeNumberEt.text.toString().toInt()).count() != resultsInDatabase) {
-            Snackbar.make(activityEpisodeEditorBinding.root, "Número do episódio já existe", Snackbar.LENGTH_SHORT).show()
-            return false
-        }
+//        val database = Database(this)
+//        val resultsInDatabase = if (editValue) 1 else 0
+//        if (database.findOneEpisodeBySeasonId(season.id, activityEpisodeEditorBinding.episodeNumberEt.text.toString().toInt()).count() != resultsInDatabase) {
+//            Snackbar.make(activityEpisodeEditorBinding.root, "Número do episódio já existe", Snackbar.LENGTH_SHORT).show()
+//            return false
+//        }
         return true
     }
 

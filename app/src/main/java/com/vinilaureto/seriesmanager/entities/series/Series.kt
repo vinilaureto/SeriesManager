@@ -6,6 +6,7 @@ import java.util.*
 
 @Parcelize
 data class Series (
+    var userCode: String = "",
     var title: String? = null,
     var year: Int? = null,
     var channel: String? = null,

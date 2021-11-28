@@ -1,7 +1,5 @@
 package com.vinilaureto.seriesmanager.controllers
 
-import com.vinilaureto.seriesmanager.EpisodeActivity
-import com.vinilaureto.seriesmanager.database.Database
 import com.vinilaureto.seriesmanager.database.EpisodeFirebaseDb
 import com.vinilaureto.seriesmanager.entities.Episode.Episode
 

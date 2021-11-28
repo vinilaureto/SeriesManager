@@ -67,6 +67,7 @@ class SeasonActivity : AppCompatActivity() {
                     seasonsList.clear()
                     seasonsList.addAll(result)
                     seasonAdapter.notifyDataSetChanged()
+                    supportActionBar?.subtitle = "${seasonsList.count().toString()} ${if (seasonsList.count() != 1) "temporadas" else "temporada"}"
                 }
             }
         }
@@ -74,7 +75,8 @@ class SeasonActivity : AppCompatActivity() {
 
 
         supportActionBar?.title = series.title
-        supportActionBar?.subtitle = "${seasonsList.count().toString()} ${if (seasonsList.count() != 1) "temporadas" else "temporada"}"
+        supportActionBar?.subtitle = "carregando..."
+
 
         // Menu
         registerForContextMenu(activitySeasonsBinding.seasonLv)

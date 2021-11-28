@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.vinilaureto.seriesmanager.auth.AuthFirebase
-import com.vinilaureto.seriesmanager.database.Database
 import com.vinilaureto.seriesmanager.databinding.ActivitySeriesEditorBinding
 import com.vinilaureto.seriesmanager.entities.Series.Series
 
@@ -21,8 +20,6 @@ class SeriesEditorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activitySeriesEditorBinding = ActivitySeriesEditorBinding.inflate(layoutInflater)
         setContentView(activitySeriesEditorBinding.root)
-
-
 
         val series = intent.getParcelableExtra<Series>(MainActivity.EXTRA_SERIES)
         position = intent.getIntExtra(MainActivity.EXTRA_SERIES_POSITION, -1)
@@ -49,9 +46,11 @@ class SeriesEditorActivity : AppCompatActivity() {
     fun saveAction(view: View) {
         val currentSeries = intent.getParcelableExtra<Series>(MainActivity.EXTRA_SERIES)
         val editValue = currentSeries != null
+        val currentUser = AuthFirebase.firebaseAuth.currentUser?.uid.toString()
 
         if (validateForms(editValue)) {
             val series = Series(
+                currentUser,
                 activitySeriesEditorBinding.seriesNameEt.text.toString(),
                 activitySeriesEditorBinding.seriesYearEt.text.toString().toInt(),
                 activitySeriesEditorBinding.seriesChannelEt.text.toString(),
@@ -86,12 +85,12 @@ class SeriesEditorActivity : AppCompatActivity() {
             return false
         }
 
-        val database = Database(this)
-        val resultsInDatabase = if (editValue) 1 else 0
-        if (database.findSeriesByTitle(activitySeriesEditorBinding.seriesNameEt.text.toString()).count() != resultsInDatabase) {
-            Snackbar.make(activitySeriesEditorBinding.root, "Já existe uma série com esse nome", Snackbar.LENGTH_SHORT).show()
-            return false
-        }
+//        val database = Database(this)
+//        val resultsInDatabase = if (editValue) 1 else 0
+//        if (database.findSeriesByTitle(activitySeriesEditorBinding.seriesNameEt.text.toString()).count() != resultsInDatabase) {
+//            Snackbar.make(activitySeriesEditorBinding.root, "Já existe uma série com esse nome", Snackbar.LENGTH_SHORT).show()
+//            return false
+//        }
         return true
     }
 

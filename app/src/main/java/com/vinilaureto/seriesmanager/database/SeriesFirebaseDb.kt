@@ -7,6 +7,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.entities.Series.Series
 import com.vinilaureto.seriesmanager.entities.Series.SeriesDAO
 import kotlinx.coroutines.GlobalScope
@@ -80,7 +81,14 @@ class SeriesFirebaseDb: SeriesDAO  {
     }
 
     override fun findAllSeries(): MutableList<Series> {
-        return seriesList
+        val seriesOfUser = mutableListOf<Series>()
+        val userCode = AuthFirebase.firebaseAuth.currentUser?.uid.toString()
+        seriesList.forEach {
+            if (it.userCode == userCode) {
+                seriesOfUser.add(it)
+            }
+        }
+        return seriesOfUser
     }
 
     override fun updateSeries(series: Series): Int {

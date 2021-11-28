@@ -70,15 +70,14 @@ class EpisodeActivity : AppCompatActivity() {
                     episodeList.clear()
                     episodeList.addAll(result)
                     episodeAdapter.notifyDataSetChanged()
+                    supportActionBar?.subtitle = "Temporada ${season.number} - ${episodeList.count()} ${if (episodeList.count() != 1) "episódio" else "episódios"}"
                 }
             }
         }
         getEpisodes.execute()
 
-
         supportActionBar?.title = series.title
-        supportActionBar?.subtitle = "Temporada ${season.number} - ${episodeList.count()} ${if (episodeList.count() != 1) "episódio" else "episódios"}"
-
+        supportActionBar?.subtitle = "carregando..."
 
         // Menu
         registerForContextMenu(activityEpisodeBinding.episodeLv)
