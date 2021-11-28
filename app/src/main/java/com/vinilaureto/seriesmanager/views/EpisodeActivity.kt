@@ -1,6 +1,8 @@
-package com.vinilaureto.seriesmanager
+package com.vinilaureto.seriesmanager.views
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
@@ -11,7 +13,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
+import com.vinilaureto.seriesmanager.R
 import com.vinilaureto.seriesmanager.adapter.EpisodeAdapter
+import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.controllers.EpisodeController
 import com.vinilaureto.seriesmanager.databinding.ActivityEpisodeBinding
 import com.vinilaureto.seriesmanager.entities.Episode.Episode
@@ -25,16 +29,10 @@ class EpisodeActivity : AppCompatActivity() {
 
     private lateinit var season: Season
     private lateinit var series: Series
-    private val episodeController: EpisodeController by lazy {
-        EpisodeController(this)
-    }
+    private val episodeController = EpisodeController()
 
     // Data source
     private var episodeList: MutableList<Episode> = mutableListOf()
-    private fun prepareEpisodeList(seasonId: String) {
-        episodeList = episodeController.findAllEpisodeBySeason(seasonId)
-    }
-
     private val episodeAdapter: EpisodeAdapter by lazy {
         EpisodeAdapter(this, R.layout.layout_episode, episodeList)
     }
@@ -47,11 +45,36 @@ class EpisodeActivity : AppCompatActivity() {
         // Load data
         season = intent.getParcelableExtra<Season>(MainActivity.EXTRA_SEASON)!!
         series = intent.getParcelableExtra<Series>(MainActivity.EXTRA_SERIES)!!
-        prepareEpisodeList(season.id)
+        //prepareEpisodeList(season.id)
         activityEpisodeBinding.episodeLv.adapter = episodeAdapter
-        supportActionBar?.title = series.title
-        supportActionBar?.subtitle = "Temporada ${season.number} - ${episodeList.count()} ${if (episodeList.count() != 1) "episódio" else "episódios"}"
+        val getEpisodes = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Void, Void, List<Episode>>() {
+            override fun doInBackground(vararg p0: Void?): List<Episode> {
+                Thread.sleep(3000)
+                return episodeController.findAllEpisodeBySeason(season.id)
+            }
 
+            override fun onPreExecute() {
+                super.onPreExecute()
+                activityEpisodeBinding.loadingTv.visibility = View.VISIBLE
+            }
+
+            override fun onPostExecute(result: List<Episode>?) {
+                super.onPostExecute(result)
+
+                if (result != null) {
+                    activityEpisodeBinding.loadingTv.visibility = View.GONE
+                    episodeList.clear()
+                    episodeList.addAll(result)
+                    episodeAdapter.notifyDataSetChanged()
+                    supportActionBar?.subtitle = "Temporada ${season.number} - ${episodeList.count()} ${if (episodeList.count() != 1) "episódio" else "episódios"}"
+                }
+            }
+        }
+        getEpisodes.execute()
+
+        supportActionBar?.title = series.title
+        supportActionBar?.subtitle = "carregando..."
 
         // Menu
         registerForContextMenu(activityEpisodeBinding.episodeLv)
@@ -60,6 +83,7 @@ class EpisodeActivity : AppCompatActivity() {
         activityEpisodeBinding.newEpisodeBt.setOnClickListener {
             val addIntent = Intent(this, EpisodeEditorActivity::class.java)
             addIntent.putExtra(MainActivity.EXTRA_SEASON, season)
+            addIntent.putParcelableArrayListExtra(MainActivity.EXTRA_EPISODES_LIST, ArrayList(episodeList))
             addEpisodeEditorActivityLauncher.launch(addIntent)
         }
 
@@ -71,6 +95,7 @@ class EpisodeActivity : AppCompatActivity() {
             editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE, episode)
             editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE_POSITION, position)
             editEpisodeIntent.putExtra(MainActivity.EXTRA_SEASON, season)
+            editEpisodeIntent.putParcelableArrayListExtra(MainActivity.EXTRA_EPISODES_LIST, ArrayList(episodeList))
             editEpisodeEditorActivityLauncher.launch(editEpisodeIntent)
         }
 
@@ -123,6 +148,7 @@ class EpisodeActivity : AppCompatActivity() {
                 editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE, episode)
                 editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE_POSITION, episodePosition)
                 editEpisodeIntent.putExtra(MainActivity.EXTRA_SEASON, season)
+                editEpisodeIntent.putParcelableArrayListExtra(MainActivity.EXTRA_EPISODES_LIST, ArrayList(episodeList))
                 editEpisodeEditorActivityLauncher.launch(editEpisodeIntent)
                 true
             }
@@ -157,5 +183,12 @@ class EpisodeActivity : AppCompatActivity() {
         intentResult.putExtra(MainActivity.EXTRA_SEASON_POSITION, position)
         setResult(RESULT_OK, intentResult)
         finish()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (AuthFirebase.firebaseAuth.currentUser == null) {
+            finish()
+        }
     }
 }

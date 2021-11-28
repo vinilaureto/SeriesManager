@@ -1,9 +1,12 @@
-package com.vinilaureto.seriesmanager
+package com.vinilaureto.seriesmanager.views
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -11,7 +14,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
+import com.vinilaureto.seriesmanager.R
 import com.vinilaureto.seriesmanager.adapter.SeriesAdapter
+import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.controllers.SeriesController
 import com.vinilaureto.seriesmanager.databinding.ActivityMainBinding
 import com.vinilaureto.seriesmanager.entities.Series.Series
@@ -20,10 +25,13 @@ class MainActivity : AppCompatActivity() {
     companion object Extras {
         const val EXTRA_SERIES = "EXTRA_SERIES"
         const val EXTRA_SERIES_POSITION = "EXTRA_SERIES_POSITION"
+        const val EXTRA_SERIES_LIST = "EXTRA_SERIES_LIST"
         const val EXTRA_SEASON = "EXTRA_SEASON"
         const val EXTRA_SEASON_POSITION = "EXTRA_SEASON_POSITION"
+        const val EXTRA_SEASON_LIST = "EXTRA_SEASON_LIST"
         const val EXTRA_EPISODE = "EXTRA_EPISODE"
         const val EXTRA_EPISODE_POSITION = "EXTRA_EPISODE_POSITION"
+        const val EXTRA_EPISODES_LIST = "EXTRA_EPISODES_LIST"
     }
 
     private lateinit var activityMainBinding: ActivityMainBinding
@@ -31,9 +39,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editSeriesEditorActivityLauncher: ActivityResultLauncher<Intent>
     private lateinit var seasonActivityLauncher: ActivityResultLauncher<Intent>
 
-    private val seriesController: SeriesController by lazy {
-        SeriesController(this)
-    }
+    private val seriesController = SeriesController()
 
     // Data source
     private var seriesList: MutableList<Series> = mutableListOf()
@@ -51,17 +57,44 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
         supportActionBar?.title = "SeriesManager"
+        supportActionBar?.subtitle = "Lista de séries"
+
 
         // Load data
-        prepareSeriesList()
         activityMainBinding.seriesLv.adapter = seriesAdapter
+        val getSeries = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Void, Void, List<Series>>() {
+            override fun doInBackground(vararg p0: Void?): List<Series> {
+                Thread.sleep(3000)
+                return seriesController.findAllSeries()
+            }
+
+            override fun onPreExecute() {
+                super.onPreExecute()
+                activityMainBinding.loadingTv.visibility = View.VISIBLE
+            }
+
+            override fun onPostExecute(result: List<Series>?) {
+                super.onPostExecute(result)
+
+                if (result != null) {
+                    activityMainBinding.loadingTv.visibility = View.GONE
+                    seriesList.clear()
+                    seriesList.addAll(result)
+                    seriesAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+        getSeries.execute()
 
         // Menus
         registerForContextMenu(activityMainBinding.seriesLv)
 
         // Actions
         activityMainBinding.newSeriesBt.setOnClickListener {
-            addSeriesEditorActivityLauncher.launch(Intent(this, SeriesEditorActivity::class.java))
+            val addIntent = Intent(this, SeriesEditorActivity::class.java)
+            addIntent.putParcelableArrayListExtra(EXTRA_SERIES_LIST, ArrayList(seriesList))
+            addSeriesEditorActivityLauncher.launch(addIntent)
         }
 
         activityMainBinding.seriesLv.setOnItemClickListener{_,_, position, _ ->
@@ -69,6 +102,7 @@ class MainActivity : AppCompatActivity() {
             val consultSeriesIntent = Intent(this, SeasonActivity::class.java)
             consultSeriesIntent.putExtra(EXTRA_SERIES, series)
             consultSeriesIntent.putExtra(EXTRA_SERIES_POSITION, position)
+            consultSeriesIntent.putParcelableArrayListExtra(EXTRA_SERIES_LIST, ArrayList(seriesList))
             seasonActivityLauncher.launch(consultSeriesIntent)
         }
 
@@ -111,6 +145,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (AuthFirebase.firebaseAuth.currentUser == null) {
+            finish()
+        }
+    }
+
     override fun onCreateContextMenu(
         menu: ContextMenu?,
         v: View?,
@@ -118,6 +159,24 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         menuInflater.inflate(R.menu.context_menu_item, menu)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.logoutMi -> {
+            AuthFirebase.firebaseAuth.signOut()
+            finish()
+            true
+        }
+        R.id.updateMi -> {
+            seriesAdapter.notifyDataSetChanged()
+            true
+        }
+        else -> { false }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -129,6 +188,7 @@ class MainActivity : AppCompatActivity() {
                 val editSeriesIntent = Intent(this, SeriesEditorActivity::class.java)
                 editSeriesIntent.putExtra(EXTRA_SERIES, series)
                 editSeriesIntent.putExtra(EXTRA_SERIES_POSITION, seriesPosition)
+                editSeriesIntent.putParcelableArrayListExtra(EXTRA_SERIES_LIST, ArrayList(seriesList))
                 editSeriesEditorActivityLauncher.launch(editSeriesIntent)
                 true
             }
