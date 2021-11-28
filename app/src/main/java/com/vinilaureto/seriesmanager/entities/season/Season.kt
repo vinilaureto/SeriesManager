@@ -1,7 +1,6 @@
 package com.vinilaureto.seriesmanager.entities.Season
 
 import android.os.Parcelable
-import com.vinilaureto.seriesmanager.entities.Episode.Episode
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
