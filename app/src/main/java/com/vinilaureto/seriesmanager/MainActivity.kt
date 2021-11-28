@@ -1,6 +1,8 @@
 package com.vinilaureto.seriesmanager
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
@@ -57,8 +59,31 @@ class MainActivity : AppCompatActivity() {
 
 
         // Load data
-        prepareSeriesList()
         activityMainBinding.seriesLv.adapter = seriesAdapter
+        val getSeries = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Void, Void, List<Series>>() {
+            override fun doInBackground(vararg p0: Void?): List<Series> {
+                Thread.sleep(3000)
+                return seriesController.findAllSeries()
+            }
+
+            override fun onPreExecute() {
+                super.onPreExecute()
+                activityMainBinding.loadingTv.visibility = View.VISIBLE
+            }
+
+            override fun onPostExecute(result: List<Series>?) {
+                super.onPostExecute(result)
+
+                if (result != null) {
+                    activityMainBinding.loadingTv.visibility = View.GONE
+                    seriesList.clear()
+                    seriesList.addAll(result)
+                    seriesAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+        getSeries.execute()
 
         // Menus
         registerForContextMenu(activityMainBinding.seriesLv)

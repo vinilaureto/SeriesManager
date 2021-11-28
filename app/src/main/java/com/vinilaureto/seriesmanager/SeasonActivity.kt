@@ -1,6 +1,8 @@
 package com.vinilaureto.seriesmanager
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
@@ -25,9 +27,7 @@ class SeasonActivity : AppCompatActivity() {
     private lateinit var episodesActivityLauncher: ActivityResultLauncher<Intent>
 
     private lateinit var series: Series
-    private val seasonController: SeasonController by lazy {
-        SeasonController(this)
-    }
+    private val seasonController = SeasonController()
 
     private var seasonsList: MutableList<Season> = mutableListOf()
     private fun prepareSeasonsList(seriesId: String) {
@@ -45,8 +45,36 @@ class SeasonActivity : AppCompatActivity() {
 
         // Load data
         series = intent.getParcelableExtra<Series>(MainActivity.EXTRA_SERIES)!!
-        prepareSeasonsList(series.id)
+        // prepareSeasonsList(series.id)
         activitySeasonsBinding.seasonLv.adapter = seasonAdapter
+        val getSeason = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Void, Void, List<Season>>() {
+            override fun doInBackground(vararg p0: Void?): List<Season> {
+                Thread.sleep(3000)
+                return seasonController.findAllSeasonsBySeries(series.id)
+            }
+
+            override fun onPreExecute() {
+                super.onPreExecute()
+                activitySeasonsBinding.loadingTv.visibility = View.VISIBLE
+            }
+
+            override fun onPostExecute(result: List<Season>?) {
+                super.onPostExecute(result)
+
+                if (result != null) {
+                    activitySeasonsBinding.loadingTv.visibility = View.GONE
+                    seasonsList.clear()
+                    seasonsList.addAll(result)
+                    seasonAdapter.notifyDataSetChanged()
+                    println("------------------------ SEASON LIST")
+                    println(seasonsList)
+                }
+            }
+        }
+        getSeason.execute()
+
+
         supportActionBar?.title = series.title
         supportActionBar?.subtitle = "${seasonsList.count().toString()} ${if (seasonsList.count() != 1) "temporadas" else "temporada"}"
 
