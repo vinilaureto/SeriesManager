@@ -148,6 +148,7 @@ class EpisodeActivity : AppCompatActivity() {
                 editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE, episode)
                 editEpisodeIntent.putExtra(MainActivity.EXTRA_EPISODE_POSITION, episodePosition)
                 editEpisodeIntent.putExtra(MainActivity.EXTRA_SEASON, season)
+                editEpisodeIntent.putParcelableArrayListExtra(MainActivity.EXTRA_EPISODES_LIST, ArrayList(episodeList))
                 editEpisodeEditorActivityLauncher.launch(editEpisodeIntent)
                 true
             }
