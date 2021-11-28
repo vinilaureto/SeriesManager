@@ -33,14 +33,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editSeriesEditorActivityLauncher: ActivityResultLauncher<Intent>
     private lateinit var seasonActivityLauncher: ActivityResultLauncher<Intent>
 
-    private val seriesController: SeriesController by lazy {
-        SeriesController(this)
-    }
+    private val seriesController = SeriesController()
 
     // Data source
     private var seriesList: MutableList<Series> = mutableListOf()
     private fun prepareSeriesList() {
         seriesList = seriesController.findAllSeries()
+        println("Carrega todas as séries")
     }
 
     // Adapter
@@ -54,6 +53,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
         supportActionBar?.title = "SeriesManager"
         supportActionBar?.subtitle = "Lista de séries"
+
+
 
         // Load data
         prepareSeriesList()
@@ -139,6 +140,10 @@ class MainActivity : AppCompatActivity() {
         R.id.logoutMi -> {
             AuthFirebase.firebaseAuth.signOut()
             finish()
+            true
+        }
+        R.id.updateMi -> {
+            seriesAdapter.notifyDataSetChanged()
             true
         }
         else -> { false }

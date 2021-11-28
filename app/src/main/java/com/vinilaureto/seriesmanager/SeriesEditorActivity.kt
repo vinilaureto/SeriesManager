@@ -9,7 +9,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.database.Database
 import com.vinilaureto.seriesmanager.databinding.ActivitySeriesEditorBinding
-import com.vinilaureto.seriesmanager.entities.Season.Season
 import com.vinilaureto.seriesmanager.entities.Series.Series
 
 class SeriesEditorActivity : AppCompatActivity() {
@@ -38,7 +37,7 @@ class SeriesEditorActivity : AppCompatActivity() {
         supportActionBar?.subtitle = "Detalhes da série"
     }
 
-    fun spinnerValueAdapter(value: String): Int {
+    fun spinnerValueAdapter(value: String?): Int {
         val res: Resources = resources
         val spinnerValues = res.getStringArray(R.array.series_genres)
         for ((index, element) in spinnerValues.withIndex()) {
