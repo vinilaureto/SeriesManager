@@ -1,6 +1,8 @@
-package com.vinilaureto.seriesmanager
+package com.vinilaureto.seriesmanager.views
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
@@ -11,7 +13,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
+import com.vinilaureto.seriesmanager.R
 import com.vinilaureto.seriesmanager.adapter.SeasonAdapter
+import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.controllers.SeasonController
 import com.vinilaureto.seriesmanager.databinding.ActivitySeasonsBinding
 import com.vinilaureto.seriesmanager.entities.Season.Season
@@ -24,9 +28,7 @@ class SeasonActivity : AppCompatActivity() {
     private lateinit var episodesActivityLauncher: ActivityResultLauncher<Intent>
 
     private lateinit var series: Series
-    private val seasonController: SeasonController by lazy {
-        SeasonController(this)
-    }
+    private val seasonController = SeasonController()
 
     private var seasonsList: MutableList<Season> = mutableListOf()
     private fun prepareSeasonsList(seriesId: String) {
@@ -44,10 +46,38 @@ class SeasonActivity : AppCompatActivity() {
 
         // Load data
         series = intent.getParcelableExtra<Series>(MainActivity.EXTRA_SERIES)!!
-        prepareSeasonsList(series.id)
+        // prepareSeasonsList(series.id)
         activitySeasonsBinding.seasonLv.adapter = seasonAdapter
+        val getSeason = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Void, Void, List<Season>>() {
+            override fun doInBackground(vararg p0: Void?): List<Season> {
+                Thread.sleep(3000)
+                return seasonController.findAllSeasonsBySeries(series.id)
+            }
+
+            override fun onPreExecute() {
+                super.onPreExecute()
+                activitySeasonsBinding.loadingTv.visibility = View.VISIBLE
+            }
+
+            override fun onPostExecute(result: List<Season>?) {
+                super.onPostExecute(result)
+
+                if (result != null) {
+                    activitySeasonsBinding.loadingTv.visibility = View.GONE
+                    seasonsList.clear()
+                    seasonsList.addAll(result)
+                    seasonAdapter.notifyDataSetChanged()
+                    supportActionBar?.subtitle = "${seasonsList.count().toString()} ${if (seasonsList.count() != 1) "temporadas" else "temporada"}"
+                }
+            }
+        }
+        getSeason.execute()
+
+
         supportActionBar?.title = series.title
-        supportActionBar?.subtitle = "${seasonsList.count().toString()} ${if (seasonsList.count() != 1) "temporadas" else "temporada"}"
+        supportActionBar?.subtitle = "carregando..."
+
 
         // Menu
         registerForContextMenu(activitySeasonsBinding.seasonLv)
@@ -56,6 +86,7 @@ class SeasonActivity : AppCompatActivity() {
         activitySeasonsBinding.newSeasonBt.setOnClickListener {
             val addIntent = Intent(this, SeasonEditorActivity::class.java)
             addIntent.putExtra(MainActivity.EXTRA_SERIES, series)
+            addIntent.putParcelableArrayListExtra(MainActivity.EXTRA_SEASON_LIST, ArrayList(seasonsList))
             addSeasonEditorActivityLauncher.launch(addIntent)
         }
 
@@ -65,6 +96,7 @@ class SeasonActivity : AppCompatActivity() {
             consultEpisodesIntent.putExtra(MainActivity.EXTRA_SEASON, season)
             consultEpisodesIntent.putExtra(MainActivity.EXTRA_SERIES, series)
             consultEpisodesIntent.putExtra(MainActivity.EXTRA_SEASON_POSITION, position)
+            consultEpisodesIntent.putParcelableArrayListExtra(MainActivity.EXTRA_SEASON_LIST, ArrayList(seasonsList))
             episodesActivityLauncher.launch(consultEpisodesIntent)
         }
 
@@ -166,5 +198,12 @@ class SeasonActivity : AppCompatActivity() {
         intentResult.putExtra(MainActivity.EXTRA_SERIES_POSITION, position)
         setResult(RESULT_OK, intentResult)
         finish()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (AuthFirebase.firebaseAuth.currentUser == null) {
+            finish()
+        }
     }
 }

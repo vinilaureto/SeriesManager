@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.vinilaureto.seriesmanager.MainActivity
-import com.vinilaureto.seriesmanager.controllers.SeriesController
 import com.vinilaureto.seriesmanager.databinding.LayoutSeriesBinding
 import com.vinilaureto.seriesmanager.entities.Series.Series
 

@@ -10,28 +10,38 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SeriesManager">
         <activity
-            android:name=".EpisodeEditorActivity"
+            android:name=".views.RecoveryPasswordActivity"
             android:exported="true" />
         <activity
-            android:name=".EpisodeActivity"
+            android:name=".views.SignupActivity"
             android:exported="true" />
         <activity
-            android:name=".SeasonEditorActivity"
-            android:exported="true" />
-        <activity
-            android:name=".SeriesEditorActivity"
-            android:exported="true" />
-        <activity
-            android:name=".SeasonActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".views.AuthActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".views.EpisodeEditorActivity"
+            android:exported="true" />
+        <activity
+            android:name=".views.EpisodeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".views.SeasonEditorActivity"
+            android:exported="true" />
+        <activity
+            android:name=".views.SeriesEditorActivity"
+            android:exported="true" />
+        <activity
+            android:name=".views.SeasonActivity"
+            android:exported="true" />
+        <activity
+            android:name=".views.MainActivity"
+            android:exported="true">
         </activity>
     </application>
 

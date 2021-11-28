@@ -1,15 +1,13 @@
 package com.vinilaureto.seriesmanager.controllers
 
-import com.vinilaureto.seriesmanager.MainActivity
-import com.vinilaureto.seriesmanager.database.Database
+import com.vinilaureto.seriesmanager.database.SeriesFirebaseDb
 import com.vinilaureto.seriesmanager.entities.Series.Series
 
-class SeriesController(mainActivity: MainActivity) {
-    private val database = Database(mainActivity)
+class SeriesController() {
+    private val seriesFirebaseDb: SeriesFirebaseDb = SeriesFirebaseDb()
 
-    fun newSeries(series: Series) = database.createSeries(series)
-    fun findAllSeries() = database.findAllSeries()
-    fun findByTitle(title: String) = database.findSeriesByTitle(title)
-    fun updateSeries(series: Series) = database.updateSeries(series)
-    fun removeSeries(series: Series) = database.removeSeries(series)
+    fun newSeries(series: Series) = seriesFirebaseDb.createSeries(series)
+    fun findAllSeries() = seriesFirebaseDb.findAllSeries()
+    fun updateSeries(series: Series) = seriesFirebaseDb.updateSeries(series)
+    fun removeSeries(series: Series) = seriesFirebaseDb.removeSeries(series)
 }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1012130441373",
+    "firebase_url": "https://seriesmanager-10978-default-rtdb.firebaseio.com",
+    "project_id": "seriesmanager-10978",
+    "storage_bucket": "seriesmanager-10978.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012130441373:android:17c9abc88b97b4a38a4c74",
+        "android_client_info": {
+          "package_name": "com.vinilaureto.seriesmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012130441373-930m2vfeea7eois7apjv0qvomrpdiian.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vinilaureto.seriesmanager",
+            "certificate_hash": "f602091f92abe6722860c7fda03394d8d690a6de"
+          }
+        },
+        {
+          "client_id": "1012130441373-s3frgm2ossjcsnh7d474h4omqaaktvuh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2RZfgIO6UG05ZuvmKg4hIf1dni5s-7rw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012130441373-s3frgm2ossjcsnh7d474h4omqaaktvuh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
