@@ -67,8 +67,6 @@ class SeasonActivity : AppCompatActivity() {
                     seasonsList.clear()
                     seasonsList.addAll(result)
                     seasonAdapter.notifyDataSetChanged()
-                    println("------------------------ SEASON LIST")
-                    println(seasonsList)
                 }
             }
         }

@@ -93,6 +93,16 @@ class SeriesFirebaseDb: SeriesDAO  {
         return 1
     }
 
+    override fun findSeriesByTitle(title: String): MutableList<Series> {
+        var returnList = mutableListOf<Series>()
+        seriesList.forEach {
+            if (it.title == title) {
+                returnList.add(it)
+            }
+        }
+        return seriesList
+    }
+
     private fun createOrUpdateSeries(series: Series) {
         appRtDb.child(series.id).setValue(series)
     }

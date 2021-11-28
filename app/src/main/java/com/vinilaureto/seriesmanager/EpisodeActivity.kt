@@ -1,6 +1,8 @@
 package com.vinilaureto.seriesmanager
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
@@ -26,9 +28,7 @@ class EpisodeActivity : AppCompatActivity() {
 
     private lateinit var season: Season
     private lateinit var series: Series
-    private val episodeController: EpisodeController by lazy {
-        EpisodeController(this)
-    }
+    private val episodeController = EpisodeController()
 
     // Data source
     private var episodeList: MutableList<Episode> = mutableListOf()
@@ -48,8 +48,34 @@ class EpisodeActivity : AppCompatActivity() {
         // Load data
         season = intent.getParcelableExtra<Season>(MainActivity.EXTRA_SEASON)!!
         series = intent.getParcelableExtra<Series>(MainActivity.EXTRA_SERIES)!!
-        prepareEpisodeList(season.id)
+        //prepareEpisodeList(season.id)
         activityEpisodeBinding.episodeLv.adapter = episodeAdapter
+        val getEpisodes = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Void, Void, List<Episode>>() {
+            override fun doInBackground(vararg p0: Void?): List<Episode> {
+                Thread.sleep(3000)
+                return episodeController.findAllEpisodeBySeason(season.id)
+            }
+
+            override fun onPreExecute() {
+                super.onPreExecute()
+                activityEpisodeBinding.loadingTv.visibility = View.VISIBLE
+            }
+
+            override fun onPostExecute(result: List<Episode>?) {
+                super.onPostExecute(result)
+
+                if (result != null) {
+                    activityEpisodeBinding.loadingTv.visibility = View.GONE
+                    episodeList.clear()
+                    episodeList.addAll(result)
+                    episodeAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+        getEpisodes.execute()
+
+
         supportActionBar?.title = series.title
         supportActionBar?.subtitle = "Temporada ${season.number} - ${episodeList.count()} ${if (episodeList.count() != 1) "episódio" else "episódios"}"
 

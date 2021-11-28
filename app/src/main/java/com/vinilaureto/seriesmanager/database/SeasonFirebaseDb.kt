@@ -26,8 +26,7 @@ class SeasonFirebaseDb: SeasonDAO  {
     init {
         appRtDb.addChildEventListener(object: ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                println("ONCHILD ------------------------------")
-                val newSeason = snapshot.getValue(Season::class.java)
+                                val newSeason = snapshot.getValue(Season::class.java)
                 newSeason?.apply {
                     if (seasonsList.find { it.id == this.id } == null) {
                         seasonsList.add(this)

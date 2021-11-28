@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
     private var seriesList: MutableList<Series> = mutableListOf()
     private fun prepareSeriesList() {
         seriesList = seriesController.findAllSeries()
-        println("Carrega todas as séries")
     }
 
     // Adapter
@@ -55,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
         supportActionBar?.title = "SeriesManager"
         supportActionBar?.subtitle = "Lista de séries"
-
 
 
         // Load data
