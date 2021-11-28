@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
+
 }
 
 android {
@@ -10,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.vinilaureto.seriesmanager"
-        minSdk 19
+        minSdk 21
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -52,4 +53,7 @@ dependencies {
 
     // Bibliotecas do Realtime Database do Firebase
     implementation 'com.google.firebase:firebase-database-ktx'
+
+    // Bibliotecas de autenticação do Firebase
+    implementation 'com.google.firebase:firebase-auth-ktx'
 }

@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Senha"
+        android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@+id/emailEt"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -41,10 +42,10 @@
         android:text="Esqueceu sua senha?"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/recoveryBt" />
+        app:layout_constraintBottom_toTopOf="@id/recoveryPasswordBt" />
 
     <Button
-        android:id="@+id/recoveryBt"
+        android:id="@+id/recoveryPasswordBt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Recuperar senha"
@@ -61,10 +62,10 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/createBt"/>
+        app:layout_constraintBottom_toTopOf="@id/createUserBt"/>
 
     <Button
-        android:id="@+id/createBt"
+        android:id="@+id/createUserBt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cadastrar"
