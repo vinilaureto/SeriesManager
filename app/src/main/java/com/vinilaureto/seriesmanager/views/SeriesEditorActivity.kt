@@ -1,4 +1,4 @@
-package com.vinilaureto.seriesmanager
+package com.vinilaureto.seriesmanager.views
 
 import android.content.Intent
 import android.content.res.Resources
@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
+import com.vinilaureto.seriesmanager.R
 import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.databinding.ActivitySeriesEditorBinding
-import com.vinilaureto.seriesmanager.entities.Season.Season
 import com.vinilaureto.seriesmanager.entities.Series.Series
 
 class SeriesEditorActivity : AppCompatActivity() {

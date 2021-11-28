@@ -10,18 +10,14 @@ import com.google.firebase.ktx.Firebase
 import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.entities.Series.Series
 import com.vinilaureto.seriesmanager.entities.Series.SeriesDAO
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class SeriesFirebaseDb: SeriesDAO  {
     companion object {
         private val DB_APP = "series"
     }
 
-    // Referência para o Realtime Datanase - vai criar caso não exista
-    private val appRtDb = Firebase.database.getReference(DB_APP)
 
-    // Datasource - Firebase vai atualizar essa lista
+    private val appRtDb = Firebase.database.getReference(DB_APP)
     private val seriesList = mutableListOf<Series>()
 
 
@@ -50,13 +46,9 @@ class SeriesFirebaseDb: SeriesDAO  {
                 }
             }
 
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                // Não se aplica devido a estrutura da arvore atual
-            }
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
 
-            override fun onCancelled(error: DatabaseError) {
-                // Não se aplica devido a estrutura da arvore atual
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
 
         appRtDb.addListenerForSingleValueEvent(object: ValueEventListener {
@@ -68,9 +60,7 @@ class SeriesFirebaseDb: SeriesDAO  {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                // Não se aplica
-            }
+            override fun onCancelled(error: DatabaseError) {}
 
         })
     }

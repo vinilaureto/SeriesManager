@@ -1,10 +1,9 @@
-package com.vinilaureto.seriesmanager
+package com.vinilaureto.seriesmanager.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.vinilaureto.seriesmanager.auth.AuthFirebase
-import com.vinilaureto.seriesmanager.databinding.ActivityAuthBinding
 import com.vinilaureto.seriesmanager.databinding.ActivityRecoveryPasswordBinding
 
 class RecoveryPasswordActivity : AppCompatActivity() {

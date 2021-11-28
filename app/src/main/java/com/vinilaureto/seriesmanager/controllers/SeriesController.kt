@@ -1,6 +1,5 @@
 package com.vinilaureto.seriesmanager.controllers
 
-import com.vinilaureto.seriesmanager.MainActivity
 import com.vinilaureto.seriesmanager.database.SeriesFirebaseDb
 import com.vinilaureto.seriesmanager.entities.Series.Series
 

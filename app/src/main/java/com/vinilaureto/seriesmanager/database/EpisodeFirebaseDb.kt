@@ -9,20 +9,14 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.vinilaureto.seriesmanager.entities.Episode.Episode
 import com.vinilaureto.seriesmanager.entities.Episode.EpisodeDAO
-import com.vinilaureto.seriesmanager.entities.Season.Season
-import com.vinilaureto.seriesmanager.entities.Series.Series
 
 class EpisodeFirebaseDb: EpisodeDAO  {
     companion object {
         private val DB_APP = "episodes"
     }
 
-    // Referência para o Realtime Database - vai criar caso não exista
     private val appRtDb = Firebase.database.getReference(DB_APP)
-
-    // Datasource - Firebase vai atualizar essa lista
     private val episodesList = mutableListOf<Episode>()
-
 
     init {
         appRtDb.addChildEventListener(object: ChildEventListener {
@@ -49,13 +43,9 @@ class EpisodeFirebaseDb: EpisodeDAO  {
                 }
             }
 
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                // Não se aplica devido a estrutura da arvore atual
-            }
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
 
-            override fun onCancelled(error: DatabaseError) {
-                // Não se aplica devido a estrutura da arvore atual
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
 
         appRtDb.addListenerForSingleValueEvent(object: ValueEventListener {
@@ -67,9 +57,7 @@ class EpisodeFirebaseDb: EpisodeDAO  {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                // Não se aplica
-            }
+            override fun onCancelled(error: DatabaseError) {}
 
         })
     }

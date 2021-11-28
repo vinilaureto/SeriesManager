@@ -9,19 +9,14 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.vinilaureto.seriesmanager.entities.Season.Season
 import com.vinilaureto.seriesmanager.entities.Season.SeasonDAO
-import com.vinilaureto.seriesmanager.entities.Series.Series
 
 class SeasonFirebaseDb: SeasonDAO  {
     companion object {
         private val DB_APP = "seasons"
     }
 
-    // Referência para o Realtime Database - vai criar caso não exista
     private val appRtDb = Firebase.database.getReference(DB_APP)
-
-    // Datasource - Firebase vai atualizar essa lista
     private val seasonsList = mutableListOf<Season>()
-
 
     init {
         appRtDb.addChildEventListener(object: ChildEventListener {
@@ -48,13 +43,9 @@ class SeasonFirebaseDb: SeasonDAO  {
                 }
             }
 
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                // Não se aplica devido a estrutura da arvore atual
-            }
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
 
-            override fun onCancelled(error: DatabaseError) {
-                // Não se aplica devido a estrutura da arvore atual
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
 
         appRtDb.addListenerForSingleValueEvent(object: ValueEventListener {
@@ -66,9 +57,7 @@ class SeasonFirebaseDb: SeasonDAO  {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                // Não se aplica
-            }
+            override fun onCancelled(error: DatabaseError) {}
 
         })
     }

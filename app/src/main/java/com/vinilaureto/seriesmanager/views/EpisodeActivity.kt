@@ -1,4 +1,4 @@
-package com.vinilaureto.seriesmanager
+package com.vinilaureto.seriesmanager.views
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
+import com.vinilaureto.seriesmanager.R
 import com.vinilaureto.seriesmanager.adapter.EpisodeAdapter
 import com.vinilaureto.seriesmanager.auth.AuthFirebase
 import com.vinilaureto.seriesmanager.controllers.EpisodeController
