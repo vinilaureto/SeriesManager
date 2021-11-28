@@ -163,6 +163,7 @@ class SeasonActivity : AppCompatActivity() {
                 editSeasonIntent.putExtra(MainActivity.EXTRA_SEASON, season)
                 editSeasonIntent.putExtra(MainActivity.EXTRA_SEASON_POSITION, seasonPosition)
                 editSeasonIntent.putExtra(MainActivity.EXTRA_SERIES, series)
+                editSeasonIntent.putParcelableArrayListExtra(MainActivity.EXTRA_SEASON_LIST, ArrayList(seasonsList))
                 editSeasonEditorActivityLauncher.launch(editSeasonIntent)
                 true
             }

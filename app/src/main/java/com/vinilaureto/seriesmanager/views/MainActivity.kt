@@ -188,6 +188,7 @@ class MainActivity : AppCompatActivity() {
                 val editSeriesIntent = Intent(this, SeriesEditorActivity::class.java)
                 editSeriesIntent.putExtra(EXTRA_SERIES, series)
                 editSeriesIntent.putExtra(EXTRA_SERIES_POSITION, seriesPosition)
+                editSeriesIntent.putParcelableArrayListExtra(EXTRA_SERIES_LIST, ArrayList(seriesList))
                 editSeriesEditorActivityLauncher.launch(editSeriesIntent)
                 true
             }
